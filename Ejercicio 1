@@ -1,24 +1,16 @@
-#include <studio.h>
-
-#define FILAS 4
-#define COLUMNAS 4
-
-void inicializarMatriz(int matriz[FILAS][COLUMNAS]) {
-for(int i = 0; i < FILAS; i++) {
-	for(int j = 0; j < COLUMNAS; j++) {
-		matriz[i][j] = 0;
-	}
-  }
-}
+#include <stdio.h>
 
 int main() {
-	int matriz[FILAS][COLUMNAS];
+    int matriz[4][4];
+    
+    // Llenar con ceros
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            matriz[i][j] = 0; // cada posición vale 0
+            printf("%d ", matriz[i][j]); // imprimir valor
+        }
+        printf("\n"); // salto de línea al terminar cada fila
+    }
 
-	printf("=== EJERCICIO 1: INICIALIZACION DE MATRIZ ===\n");
-
-	inicializarMatriz(matriz);
-	imprimirMatriz(matriz);
-
-	printf("Ejercicio completado\n");
-	return 0;
+return 0;
 }

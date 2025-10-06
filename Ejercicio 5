@@ -84,7 +84,7 @@ void mostrarEstadisticas(int matriz[FILAS][COLUMNAS]) {
         }
     }
 
-    float promedio + (float)suma / (FILAS * COLUMNAS);
+    float promedio; + (float)suma / (FILAS * COLUMNAS);
 
     printf("\n=== ESTADÍSTICAS COMPLETAS ===\n");
     printf("Rango de valores: %d - %d\n", minimo, maximo);

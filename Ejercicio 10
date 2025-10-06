@@ -1,0 +1,87 @@
+/**
+ * Ejercicio 10: Matriz Transpuesta
+ * Objetivo: Calcular la transpuesta de una matriz (intercambiar filas por columnas)
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define FILAS_A 3
+#define COLUMNAS_A 4
+#define FILAS_AT COLUMNAS_A
+#define COLUMNAS_AT FILAS_A
+
+void llenarMatrizAleatoria(int matriz[FILAS_A][COLUMNAS_A]) {
+    srand(time(NULL));
+    for(int i = 0; i < FILAS_A; i++) {
+        for(int j = 0; j < COLUMNAS_A; j++) {
+            matriz[i][j] = rand() % 10; // Números entre 0 y 9
+        }
+    }
+}
+
+void calcularTranspuesta(int A[FILAS_A][COLUMNAS_A], int AT[FILAS_AT][COLUMNAS_AT]) {
+    for(int i = 0; i < FILAS_A; i++) {
+        for(int j = 0; j < COLUMNAS_A; j++) {
+            AT[j][i] = A[i][j];
+        }
+    }
+}
+
+void imprimirMatriz(int* matriz, int filas, int columnas, char* nombre) {
+    printf("Matriz %s (%dx%d):\n", nombre, filas, columnas);
+    for(int i = 0; i < filas; i++) {
+        printf("| ");
+        for(int j = 0; j < columnas; j++) {
+            printf("%d  ", *((matriz + i * columnas) + j));
+        }
+        printf("|\n");
+    }
+}
+
+void mostrarProcesoTranspuesta(int A[FILAS_A][COLUMNAS_A], int AT[FILAS_AT][COLUMNAS_AT]) {
+    printf("\n=== PROCESO DE TRANSPOSICIÓN ===\n");
+    printf("Fórmula: AT[j][i] = A[i][j]\n\n");
+    
+    printf("Intercambios realizados:\n");
+    for(int i = 0; i < FILAS_A; i++) {
+        for(int j = 0; j < COLUMNAS_A; j++) {
+            printf("AT[%d][%d] = A[%d][%d] = %d\n", 
+                   j, i, i, j, A[i][j]);
+        }
+    }
+}
+
+void mostrarComparacionDimensiones() {
+    printf("\n=== COMPARACIÓN DE DIMENSIONES ===\n");
+    printf("Matriz original A: %dx%d\n", FILAS_A, COLUMNAS_A);
+    printf("Matriz transpuesta AT: %dx%d\n", FILAS_AT, COLUMNAS_AT);
+    printf("Se intercambian filas por columnas.\n");
+}
+
+int main() {
+    int A[FILAS_A][COLUMNAS_A];
+    int AT[FILAS_AT][COLUMNAS_AT];
+    
+    printf("=== EJERCICIO 10: MATRIZ TRANSPUESTA ===\n");
+    printf("Generando matriz A de 3x4 con valores aleatorios...\n\n");
+    
+    // Llenar matriz A con valores aleatorios
+    llenarMatrizAleatoria(A);
+    
+    // Calcular matriz transpuesta
+    calcularTranspuesta(A, AT);
+    
+    // Mostrar matrices
+    imprimirMatriz((int*)A, FILAS_A, COLUMNAS_A, "A");
+    printf("\n");
+    imprimirMatriz((int*)AT, FILAS_AT, COLUMNAS_AT, "AT (Transpuesta)");
+    
+    // Mostrar información adicional
+    mostrarComparacionDimensiones();
+    mostrarProcesoTranspuesta(A, AT);
+    
+    printf("\n¡Ejercicio 10 completado!\n");
+    return 0;
+}

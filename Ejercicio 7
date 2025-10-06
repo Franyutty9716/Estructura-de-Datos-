@@ -1,0 +1,91 @@
+/**
+ * Ejercicio 7: Suma de Matrices
+ * Objetivo: Sumar dos matrices A y B en una matriz C
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define FILAS 4
+#define COLUMNAS 4
+
+void llenarMatrizAleatoria(int matriz[FILAS][COLUMNAS]) {
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            matriz[i][j] = rand() % 10; // Números entre 0 y 9
+        }
+    }
+}
+
+void sumarMatrices(int A[FILAS][COLUMNAS], int B[FILAS][COLUMNAS], int C[FILAS][COLUMNAS]) {
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            C[i][j] = A[i][j] + B[i][j];
+        }
+    }
+}
+
+void imprimirMatriz(int matriz[FILAS][COLUMNAS], char nombre) {
+    printf("Matriz %c:\n", nombre);
+    for(int i = 0; i < FILAS; i++) {
+        printf("| ");
+        for(int j = 0; j < COLUMNAS; j++) {
+            printf("%d  ", matriz[i][j]);
+        }
+        printf("|\n");
+    }
+}
+
+void mostrarOperacionMatematica() {
+    printf("\nFórmula matemática:\n");
+    printf("C[i][j] = A[i][j] + B[i][j]\n");
+    printf("Donde i = 0..%d, j = 0..%d\n", FILAS-1, COLUMNAS-1);
+}
+
+void demostrarCalculoElemento(int A[FILAS][COLUMNAS], int B[FILAS][COLUMNAS], int C[FILAS][COLUMNAS]) {
+    printf("\n=== DEMOSTRACIÓN DE CÁLCULO ===\n");
+    printf("Ejemplo para algunos elementos:\n");
+    
+    // Mostrar cálculo para algunos elementos representativos
+    int elementosMostrar = 4;
+    int posiciones[4][2] = {{0,0}, {1,1}, {2,2}, {3,3}}; // Diagonal principal
+    
+    for(int k = 0; k < elementosMostrar; k++) {
+        int i = posiciones[k][0];
+        int j = posiciones[k][1];
+        printf("C[%d][%d] = A[%d][%d] + B[%d][%d] = %d + %d = %d\n", 
+               i, j, i, j, i, j, A[i][j], B[i][j], C[i][j]);
+    }
+}
+
+int main() {
+    int A[FILAS][COLUMNAS], B[FILAS][COLUMNAS], C[FILAS][COLUMNAS];
+    
+    // Inicializar semilla para números aleatorios
+    srand(time(NULL));
+    
+    printf("=== EJERCICIO 7: SUMA DE MATRICES ===\n");
+    printf("C[i][j] = A[i][j] + B[i][j]\n\n");
+    
+    // Llenar matrices A y B con valores aleatorios
+    llenarMatrizAleatoria(A);
+    llenarMatrizAleatoria(B);
+    
+    // Sumar matrices: C = A + B
+    sumarMatrices(A, B, C);
+    
+    // Mostrar matrices y resultado
+    imprimirMatriz(A, 'A');
+    printf("\n");
+    imprimirMatriz(B, 'B');
+    printf("\n");
+    imprimirMatriz(C, 'C');
+    
+    // Mostrar información adicional
+    mostrarOperacionMatematica();
+    demostrarCalculoElemento(A, B, C);
+    
+    printf("\n¡Ejercicio 7 completado!\n");
+    return 0;
+}

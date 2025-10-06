@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+#define FILAS 4
+#define COLUMNAS 4
+
+void llenarMatrizAleatoria(int matriz[FILAS][COLUMNAS]) {
+    //Inicializar semilla para numeros aleatorios
+    srand(time(NULL));
+
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            matriz[i][j] = rand() % 10; //Numeros entre 0 y 9
+        }
+    }
+}
+
+void imprimirMatriz(int matriz[FILAS][COLUMNAS]){
+    printf("Matriz generada:\n");
+    for(int i = 0; j < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++){
+            printf("%d\t", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void contarParesImpares(int matriz[FILAS][COLUMNAS]) {
+    int pares = 0, impares = 0;
+
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            if(matriz[i][j] % 2 == 0) {
+                pares++;
+            } else {
+                impares++;
+            }
+        }
+    }
+
+    printf("\n=== ESTADÍSTICAS ===\n");
+    printf("Números pares: %d\n", pares);
+    printf("Números impares: %d\n", impares);
+    printf("Total de elementos: %d\n", FILAS * COLUMNAS);
+}
+
+int main() {
+    int matriz[FILAS][COLUMNAS];
+
+    printf("=== EJERCICIO 3: MATRIZ ALEATORIA ===\n");
+    printf("Generando matriz 4x4 con numeros aleatorios (0-9)...\n\n");
+
+    llenarMatrizAleatoria(matriz);
+    imprimirMatriz(matriz);
+    contarParesImpares(matriz);
+
+    printf("\n¡Ejercicio 3 completado!\n");
+    return 0;
+}

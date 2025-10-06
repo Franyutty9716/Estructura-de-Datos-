@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define FILAS 4
+#define COLUMNAS 4
+
+void llenarMatrizAleatoria(int matriz[FILAS][COLUMNAS]) {
+    srand(time(NULL));
+    
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            matriz[i][j] = rand() % 10; // Números entre 0 y 9
+        }
+    }
+}
+
+void imprimirMatriz(int matriz[FILAS][COLUMNAS]) {
+    printf("Matriz generada:\n");
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            printf("%d\t", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int calcularSuma(int matriz[FILAS][COLUMNAS]) {
+    int suma = 0;
+    
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            suma += matriz[i][j];
+        }
+    }
+    
+    return suma;
+}
+
+float calcularPromedio(int matriz[FILAS][COLUMNAS]) {
+    int suma = calcularSuma(matriz);
+    return (float)suma / (FILAS * COLUMNAS);
+}
+
+void mostrarResultados(int matriz[FILAS][COLUMNAS]) {
+    int suma = calcularSuma(matriz);
+    float promedio = calcularPromedio(matriz);
+    
+    printf("\n=== RESULTADOS ===\n");
+    printf("Suma de todos los elementos: %d\n", suma);
+    printf("Promedio de los elementos: %.2f\n", promedio);
+    printf("Total de elementos: %d\n", FILAS * COLUMNAS);
+    
+    // Mostrar cálculo detallado
+    printf("\nCálculo: %d / %d = %.2f\n", 
+           suma, FILAS * COLUMNAS, promedio);
+}
+
+int main() {
+    int matriz[FILAS][COLUMNAS];
+    
+    printf("=== EJERCICIO 4: SUMA Y PROMEDIO ===\n");
+    printf("Generando matriz 4x4 con números aleatorios (0-9)...\n\n");
+    
+    llenarMatrizAleatoria(matriz);
+    imprimirMatriz(matriz);
+    mostrarResultados(matriz);
+    
+    printf("\n¡Ejercicio 4 completado!\n");
+    return 0;
+}

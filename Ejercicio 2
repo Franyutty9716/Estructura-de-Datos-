@@ -6,7 +6,7 @@
 void llenarMatriz(int matriz[FILAS][COLUMNAS]) {
     printf("ingrese los %d valores de la matriz:\n", FILAS * COLUMNAS);
     for(int i = 0; i < FILAS; i++) {
-        for(int j = 0; j < COLUMNAS; J++){
+        for(int j = 0; j < COLUMNAS; j++){
             printf("Elemento [%d][%d]: ", i, j);
             scanf("%d" , &matriz[i][j]);
         }

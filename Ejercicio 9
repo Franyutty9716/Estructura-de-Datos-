@@ -1,0 +1,152 @@
+/**
+ * Ejercicio 9: Multiplicación de Matrices
+ * Objetivo: Multiplicar dos matrices siguiendo reglas del álgebra lineal
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Dimensiones para el ejemplo específico
+#define FILAS_A 2
+#define COLUMNAS_A 3
+#define FILAS_B 3
+#define COLUMNAS_B 2
+#define FILAS_C FILAS_A
+#define COLUMNAS_C COLUMNAS_B
+
+int verificarMultiplicacion(int colA, int filB) {
+    return colA == filB;
+}
+
+void llenarMatricesEjemplo(int A[FILAS_A][COLUMNAS_A], int B[FILAS_B][COLUMNAS_B]) {
+    // Matriz A (2x3) del ejemplo
+    int A_ejemplo[FILAS_A][COLUMNAS_A] = {
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+    
+    // Matriz B (3x2) del ejemplo
+    int B_ejemplo[FILAS_B][COLUMNAS_B] = {
+        {1, 4},
+        {2, 5},
+        {3, 6}
+    };
+    
+    // Copiar matrices de ejemplo
+    for(int i = 0; i < FILAS_A; i++) {
+        for(int j = 0; j < COLUMNAS_A; j++) {
+            A[i][j] = A_ejemplo[i][j];
+        }
+    }
+    
+    for(int i = 0; i < FILAS_B; i++) {
+        for(int j = 0; j < COLUMNAS_B; j++) {
+            B[i][j] = B_ejemplo[i][j];
+        }
+    }
+}
+
+void multiplicarMatrices(int A[FILAS_A][COLUMNAS_A], int B[FILAS_B][COLUMNAS_B], int C[FILAS_C][COLUMNAS_C]) {
+    // Inicializar matriz C con ceros
+    for(int i = 0; i < FILAS_C; i++) {
+        for(int j = 0; j < COLUMNAS_C; j++) {
+            C[i][j] = 0;
+        }
+    }
+    
+    // Multiplicar matrices
+    for(int i = 0; i < FILAS_A; i++) {
+        for(int j = 0; j < COLUMNAS_B; j++) {
+            for(int k = 0; k < COLUMNAS_A; k++) { // o FILAS_B, son iguales
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+}
+
+void imprimirMatrizGeneral(int* matriz, int filas, int columnas, char nombre) {
+    printf("Matriz %c (%dx%d):\n", nombre, filas, columnas);
+    for(int i = 0; i < filas; i++) {
+        printf("| ");
+        for(int j = 0; j < columnas; j++) {
+            printf("%2d  ", *((matriz + i * columnas) + j));
+        }
+        printf("|\n");
+    }
+}
+
+void mostrarReglasMultiplicacion() {
+    printf("\n=== REGLAS DE MULTIPLICACIÓN ===\n");
+    printf("Para multiplicar A(m×n) × B(n×p):\n");
+    printf("- Las columnas de A deben igualar las filas de B\n");
+    printf("- El resultado C tendrá dimensiones (m×p)\n");
+    printf("- Fórmula: C[i][j] = Σ(A[i][k] × B[k][j]) para k = 0..n-1\n");
+}
+
+void mostrarProcesoCalculo(int A[FILAS_A][COLUMNAS_A], int B[FILAS_B][COLUMNAS_B], int C[FILAS_C][COLUMNAS_C]) {
+    printf("\n=== PROCESO DE CÁLCULO ===\n");
+    
+    for(int i = 0; i < FILAS_C; i++) {
+        for(int j = 0; j < COLUMNAS_C; j++) {
+            printf("C[%d][%d] = ", i, j);
+            for(int k = 0; k < COLUMNAS_A; k++) {
+                printf("(%d × %d)", A[i][k], B[k][j]);
+                if(k < COLUMNAS_A - 1) {
+                    printf(" + ");
+                }
+            }
+            printf(" = %d\n", C[i][j]);
+        }
+    }
+}
+
+void mostrarEjemploTabla() {
+    printf("\n=== EJEMPLO DEL ENUNCIADO ===\n");
+    printf("A (2×3)     B (3×2)     C (2×2)\n");
+    printf("1  2  3     1  4        22  28\n");
+    printf("4  5  6     2  5        49  64\n");
+    printf("            3  6\n");
+}
+
+int main() {
+    int A[FILAS_A][COLUMNAS_A];
+    int B[FILAS_B][COLUMNAS_B];
+    int C[FILAS_C][COLUMNAS_C];
+    
+    printf("=== EJERCICIO 9: MULTIPLICACIÓN DE MATRICES ===\n");
+    
+    // Mostrar ejemplo del enunciado
+    mostrarEjemploTabla();
+    
+    // Verificar si se pueden multiplicar
+    if(!verificarMultiplicacion(COLUMNAS_A, FILAS_B)) {
+        printf("\n ERROR: No se pueden multiplicar las matrices\n");
+        printf("   Columnas de A (%d) ≠ Filas de B (%d)\n", COLUMNAS_A, FILAS_B);
+        return 1;
+    }
+    
+    printf("\n Las matrices se pueden multiplicar:\n");
+    printf("   A(%dx%d) × B(%dx%d) = C(%dx%d)\n", 
+           FILAS_A, COLUMNAS_A, FILAS_B, COLUMNAS_B, FILAS_C, COLUMNAS_C);
+    
+    // Llenar matrices con el ejemplo
+    llenarMatricesEjemplo(A, B);
+    
+    // Multiplicar matrices
+    multiplicarMatrices(A, B, C);
+    
+    // Mostrar matrices
+    printf("\n");
+    imprimirMatrizGeneral((int*)A, FILAS_A, COLUMNAS_A, 'A');
+    printf("\n");
+    imprimirMatrizGeneral((int*)B, FILAS_B, COLUMNAS_B, 'B');
+    printf("\n");
+    imprimirMatrizGeneral((int*)C, FILAS_C, COLUMNAS_C, 'C');
+    
+    // Mostrar información adicional
+    mostrarReglasMultiplicacion();
+    mostrarProcesoCalculo(A, B, C);
+    
+    printf("\n¡Ejercicio 9 completado!\n");
+    return 0;
+}

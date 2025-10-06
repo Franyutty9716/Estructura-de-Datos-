@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define FILAS 4
+#define COLUMNAS 4
+
+void llenarMatrizAleatoria(int matriz[FILAS][COLUMNAS]) {
+    srand(time(NULL));
+
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            matriz[i][j] = rand() % 100; //Numeroa entre 0 y 99
+        }
+    }
+}
+
+void imprimirMatriz(int matriz[FILAS][COLUMNAS]) {
+    printf("Matriz generada:\n");
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            printf("%2d\t", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void encontrarMaximoMinimo(int matriz[FILAS][COLUMNAS]) {
+    int maximo = matriz[0][0];
+    int minimo = matriz[0][0];
+    int pos_max_fila = 0, pos_max_columna = 0;
+    int pos_min_fila = 0, pos_min_columna = 0;
+
+    //Buscar maximo y minimo
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            //Encontrar Maximo
+            if(matriz[i][j] > maximo) {
+                maximo = matriz[i][j];
+                pos_max_fila = i;
+                pos_max_columna = j;
+            }
+            
+            //Encontrar Minimo 
+            if(matriz[i][j] < minimo) {
+                minmo = matriz[i][j];
+                pos_min_fila = i;
+                pos_min_columna = j;
+            }
+        }
+    }
+
+    //Mostrar Resultados
+    printf("\n=== ELEMENTOS EXTREMOS ===\n");
+    printf("Máximo: %d en posición [%d][%d]\n",maximo, pos_max_fila, pos_max_columna);
+    printf("Mínimo: %d en posición [%d][%d]\n",minimo, pos_min_fila, pos_min_columna);
+
+    //Mostrar matriz resaltando maximo y minimo
+    printf("\nMatriz con elementos destacados:\n");
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            if(i == pos_max_fila && j == pos_max_columna) {
+                printf("[MÁX:%2d]\t", matriz[i][j]);
+            } else if(i == pos_min_fila && j == pos_min_columna) {
+                printf("[mín:%2d]\t", matriz[i][j]);
+            } else {
+                printf(" %2d \t", matriz[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+void mostrarEstadisticas(int matriz[FILAS][COLUMNAS]) {
+    int maximo = matriz[0][0];
+    int minimo = matriz[0][0];
+    int suma = 0;
+
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            suma += matriz[i][j];
+            if(matriz[i][j] > maximo) maximo = matriz[i][j];
+            if(matriz[i][j] < minimo) minimo = matriz[i][j];
+        }
+    }
+
+    float promedio + (float)suma / (FILAS * COLUMNAS);
+
+    printf("\n=== ESTADÍSTICAS COMPLETAS ===\n");
+    printf("Rango de valores: %d - %d\n", minimo, maximo);
+    printf("Amplitud: %d\n", maximo - minimo);
+    printf("Suma total: %d\n", suma);
+    printf("Promedio: %.2f\n", promedio);
+}
+
+int main() {
+    int matriz[FILAS][COLUMNAS];
+    
+    printf("=== EJERCICIO 5: MÁXIMO Y MÍNIMO ===\n");
+    printf("Generando matriz 4x4 con números aleatorios (0-99)...\n\n");
+    
+    llenarMatrizAleatoria(matriz);
+    imprimirMatriz(matriz);
+    encontrarMaximoMinimo(matriz);
+    mostrarEstadisticas(matriz);
+    
+    printf("\n¡Ejercicio 5 completado!\n");
+    return 0;
+}

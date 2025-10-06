@@ -1,0 +1,88 @@
+/**
+ * Ejercicio 6: Suma por Filas y Columnas
+ * Objetivo: Calcular suma individual de cada fila y cada columna
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define FILAS 4
+#define COLUMNAS 4
+
+void llenarMatrizAleatoria(int matriz[FILAS][COLUMNAS]) {
+    srand(time(NULL));
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            matriz[i][j] = rand() % 10; // Números entre 0 y 9
+        }
+    }
+}
+
+void calcularSumas(int matriz[FILAS][COLUMNAS], int sumasFilas[FILAS], int sumasColumnas[COLUMNAS]) {
+    // Inicializar arrays de sumas
+    for(int i = 0; i < FILAS; i++) {
+        sumasFilas[i] = 0;
+    }
+    for(int j = 0; j < COLUMNAS; j++) {
+        sumasColumnas[j] = 0;
+    }
+    
+    // Calcular sumas
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            sumasFilas[i] += matriz[i][j];
+            sumasColumnas[j] += matriz[i][j];
+        }
+    }
+}
+
+void imprimirMatrizConSumas(int matriz[FILAS][COLUMNAS], int sumasFilas[FILAS], int sumasColumnas[COLUMNAS]) {
+    printf("\nMatriz:\n");
+    printf("-----------------------------\n");
+    
+    for(int i = 0; i < FILAS; i++) {
+        printf("| ");
+        for(int j = 0; j < COLUMNAS; j++) {
+            printf("%d  ", matriz[i][j]);
+        }
+        printf("| → Suma fila %d: %d\n", i, sumasFilas[i]);
+    }
+    
+    printf("\nSuma columnas: ");
+    for(int j = 0; j < COLUMNAS; j++) {
+        printf("%d  ", sumasColumnas[j]);
+    }
+    printf("\n");
+}
+
+void mostrarEjemplo() {
+    printf("\n=== EJEMPLO ESPERADO ===\n");
+    printf("Matriz:\n");
+    printf("5  8  3  2   | Suma fila 0: 18\n");
+    printf("1  9  4  7   | Suma fila 1: 21\n");
+    printf("6  2  5  3   | Suma fila 2: 16\n");
+    printf("4  7  1  8   | Suma fila 3: 20\n");
+    printf("\nSuma columnas: 16  26  13  20\n");
+}
+
+int main() {
+    int matriz[FILAS][COLUMNAS];
+    int sumasFilas[FILAS];
+    int sumasColumnas[COLUMNAS];
+    
+    printf("=== EJERCICIO 6: SUMA POR FILAS Y COLUMNAS ===\n");
+    
+    // Mostrar ejemplo esperado
+    mostrarEjemplo();
+    
+    printf("\n--- GENERANDO MATRIZ ALEATORIA ---\n");
+    
+    // Generar y procesar matriz aleatoria
+    llenarMatrizAleatoria(matriz);
+    calcularSumas(matriz, sumasFilas, sumasColumnas);
+    imprimirMatrizConSumas(matriz, sumasFilas, sumasColumnas);
+    
+    printf("\n¡Ejercicio 6 completado!\n");
+    return 0;
+}

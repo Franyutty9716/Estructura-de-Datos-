@@ -1,0 +1,146 @@
+/**
+ * Ejercicio 11: Diagonal Principal y Secundaria
+ * Objetivo: Encontrar y sumar elementos de diagonales en matriz cuadrada
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define DIMENSION 4
+
+void llenarMatrizAleatoria(int matriz[DIMENSION][DIMENSION]) {
+    srand(time(NULL));
+    for(int i = 0; i < DIMENSION; i++) {
+        for(int j = 0; j < DIMENSION; j++) {
+            matriz[i][j] = rand() % 10; // Números entre 0 y 9
+        }
+    }
+}
+
+void imprimirMatrizConDiagonales(int matriz[DIMENSION][DIMENSION]) {
+    printf("Matriz %dx%d:\n", DIMENSION, DIMENSION);
+    for(int i = 0; i < DIMENSION; i++) {
+        printf("| ");
+        for(int j = 0; j < DIMENSION; j++) {
+            // Resaltar diagonal principal
+            if(i == j) {
+                printf("[P:%d] ", matriz[i][j]);
+            }
+            // Resaltar diagonal secundaria
+            else if(i + j == DIMENSION - 1) {
+                printf("[S:%d] ", matriz[i][j]);
+            }
+            else {
+                printf(" %d   ", matriz[i][j]);
+            }
+        }
+        printf("|\n");
+    }
+}
+
+void calcularDiagonales(int matriz[DIMENSION][DIMENSION]) {
+    int diagonalPrincipal[DIMENSION];
+    int diagonalSecundaria[DIMENSION];
+    int sumaPrincipal = 0, sumaSecundaria = 0;
+    
+    // Obtener diagonales
+    for(int i = 0; i < DIMENSION; i++) {
+        // Diagonal principal (i == j)
+        diagonalPrincipal[i] = matriz[i][i];
+        sumaPrincipal += matriz[i][i];
+        
+        // Diagonal secundaria (i + j == DIMENSION - 1)
+        int j = DIMENSION - 1 - i;
+        diagonalSecundaria[i] = matriz[i][j];
+        sumaSecundaria += matriz[i][j];
+    }
+    
+    // Mostrar diagonal principal
+    printf("\n=== DIAGONAL PRINCIPAL ===\n");
+    printf("Elementos (donde i == j): ");
+    for(int i = 0; i < DIMENSION; i++) {
+        printf("A[%d][%d]=%d", i, i, diagonalPrincipal[i]);
+        if(i < DIMENSION - 1) printf(", ");
+    }
+    printf("\nSuma: ");
+    for(int i = 0; i < DIMENSION; i++) {
+        printf("%d", diagonalPrincipal[i]);
+        sumaPrincipal += diagonalPrincipal[i];
+        if(i < DIMENSION - 1) printf(" + ");
+    }
+    printf(" = %d\n", sumaPrincipal);
+    
+    // Mostrar diagonal secundaria
+    printf("\n=== DIAGONAL SECUNDARIA ===\n");
+    printf("Elementos (donde i + j == %d): ", DIMENSION - 1);
+    for(int i = 0; i < DIMENSION; i++) {
+        int j = DIMENSION - 1 - i;
+        printf("A[%d][%d]=%d", i, j, diagonalSecundaria[i]);
+        if(i < DIMENSION - 1) printf(", ");
+    }
+    printf("\nSuma: ");
+    for(int i = 0; i < DIMENSION; i++) {
+        printf("%d", diagonalSecundaria[i]);
+        if(i < DIMENSION - 1) printf(" + ");
+    }
+    printf(" = %d\n", sumaSecundaria);
+    
+    // Mostrar comparación
+    printf("\n=== COMPARACIÓN ===\n");
+    printf("Suma diagonal principal: %d\n", sumaPrincipal);
+    printf("Suma diagonal secundaria: %d\n", sumaSecundaria);
+    
+    if(sumaPrincipal > sumaSecundaria) {
+        printf("La diagonal principal tiene mayor suma.\n");
+    } else if(sumaPrincipal < sumaSecundaria) {
+        printf("La diagonal secundaria tiene mayor suma.\n");
+    } else {
+        printf("Ambas diagonales tienen la misma suma.\n");
+    }
+}
+
+void mostrarPosicionesDiagonales() {
+    printf("\n=== POSICIONES DE LAS DIAGONALES ===\n");
+    printf("Matriz %dx%d:\n", DIMENSION, DIMENSION);
+    
+    // Mostrar matriz con coordenadas
+    for(int i = 0; i < DIMENSION; i++) {
+        printf("| ");
+        for(int j = 0; j < DIMENSION; j++) {
+            if(i == j && i + j == DIMENSION - 1) {
+                printf("X "); // Elemento en ambas diagonales (solo en matriz impar)
+            } else if(i == j) {
+                printf("P "); // Diagonal principal
+            } else if(i + j == DIMENSION - 1) {
+                printf("S "); // Diagonal secundaria
+            } else {
+                printf(". "); // Otro elemento
+            }
+        }
+        printf("|\n");
+    }
+    printf("Leyenda: P=Principal, S=Secundaria, X=Ambas\n");
+}
+
+int main() {
+    int matriz[DIMENSION][DIMENSION];
+    
+    printf("=== EJERCICIO 11: DIAGONAL PRINCIPAL Y SECUNDARIA ===\n");
+    printf("Generando matriz cuadrada %dx%d con valores aleatorios...\n\n", DIMENSION, DIMENSION);
+    
+    // Llenar matriz con valores aleatorios
+    llenarMatrizAleatoria(matriz);
+    
+    // Mostrar matriz con diagonales resaltadas
+    imprimirMatrizConDiagonales(matriz);
+    
+    // Calcular y mostrar diagonales
+    calcularDiagonales(matriz);
+    
+    // Mostrar información sobre posiciones
+    mostrarPosicionesDiagonales();
+    
+    printf("\n¡Ejercicio 11 completado!\n");
+    return 0;
+}

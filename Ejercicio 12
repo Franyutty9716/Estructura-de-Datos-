@@ -1,0 +1,213 @@
+/**
+ * Ejercicio 12: Buscar Elemento en Matriz
+ * Objetivo: Buscar un número en matriz y mostrar todas sus posiciones
+ * Requisitos: Funciones, validación, manejo de errores, código comentado
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Constantes para dimensiones
+#define FILAS 4
+#define COLUMNAS 4
+#define MAX_POSICIONES 16  // Máximo de posiciones donde puede aparecer un elemento
+
+// Estructura para almacenar posiciones
+typedef struct {
+    int fila;
+    int columna;
+} Posicion;
+
+// Prototipos de funciones
+void llenarMatrizAleatoria(int matriz[FILAS][COLUMNAS]);
+void imprimirMatriz(int matriz[FILAS][COLUMNAS]);
+int buscarElemento(int matriz[FILAS][COLUMNAS], int elemento, Posicion posiciones[MAX_POSICIONES]);
+void mostrarPosiciones(Posicion posiciones[MAX_POSICIONES], int cantidad, int elemento);
+int leerEnteroValidado(const char* mensaje);
+void mostrarResultadoBusqueda(int encontrado, int cantidad, int elemento);
+
+/**
+ * @brief Función principal
+ * @return 0 si éxito, 1 si error
+ */
+int main() {
+    int matriz[FILAS][COLUMNAS];
+    int elementoBuscado;
+    Posicion posiciones[MAX_POSICIONES];
+    int cantidadEncontrados;
+    
+    printf("=== EJERCICIO 12: BUSCAR ELEMENTO EN MATRIZ ===\n");
+    printf("Generando matriz %dx%d con valores aleatorios...\n\n", FILAS, COLUMNAS);
+    
+    // Llenar matriz con valores aleatorios
+    llenarMatrizAleatoria(matriz);
+    
+    // Mostrar matriz generada
+    printf("Matriz generada:\n");
+    imprimirMatriz(matriz);
+    printf("\n");
+    
+    // Pedir elemento a buscar con validación
+    elementoBuscado = leerEnteroValidado("Ingrese el número a buscar: ");
+    
+    // Buscar elemento en la matriz
+    cantidadEncontrados = buscarElemento(matriz, elementoBuscado, posiciones);
+    
+    // Mostrar resultados
+    mostrarResultadoBusqueda(cantidadEncontrados > 0, cantidadEncontrados, elementoBuscado);
+    
+    if (cantidadEncontrados > 0) {
+        mostrarPosiciones(posiciones, cantidadEncontrados, elementoBuscado);
+    }
+    
+    printf("\n¡Ejercicio 12 completado!\n");
+    return 0;
+}
+
+/**
+ * @brief Llena una matriz con valores aleatorios entre 0 y 9
+ * @param matriz Matriz a llenar
+ */
+void llenarMatrizAleatoria(int matriz[FILAS][COLUMNAS]) {
+    srand(time(NULL));
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            matriz[i][j] = rand() % 10; // Números entre 0 y 9
+        }
+    }
+}
+
+/**
+ * @brief Imprime la matriz en formato tabular
+ * @param matriz Matriz a imprimir
+ */
+void imprimirMatriz(int matriz[FILAS][COLUMNAS]) {
+    // Imprimir encabezado de columnas
+    printf("    ");
+    for(int j = 0; j < COLUMNAS; j++) {
+        printf(" Col%d", j);
+    }
+    printf("\n");
+    
+    // Imprimir separador
+    printf("    ");
+    for(int j = 0; j < COLUMNAS; j++) {
+        printf("----");
+    }
+    printf("\n");
+    
+    // Imprimir filas con índices
+    for(int i = 0; i < FILAS; i++) {
+        printf("F%d |", i);
+        for(int j = 0; j < COLUMNAS; j++) {
+            printf(" %2d ", matriz[i][j]);
+        }
+        printf("|\n");
+    }
+}
+
+/**
+ * @brief Busca un elemento en la matriz y guarda todas sus posiciones
+ * @param matriz Matriz donde buscar
+ * @param elemento Elemento a buscar
+ * @param posiciones Array donde guardar las posiciones encontradas
+ * @return Cantidad de veces encontrado el elemento
+ */
+int buscarElemento(int matriz[FILAS][COLUMNAS], int elemento, Posicion posiciones[MAX_POSICIONES]) {
+    int contador = 0;
+    
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++) {
+            if(matriz[i][j] == elemento) {
+                // Guardar posición
+                posiciones[contador].fila = i;
+                posiciones[contador].columna = j;
+                contador++;
+                
+                // Verificar que no excedamos el máximo
+                if(contador >= MAX_POSICIONES) {
+                    printf("Advertencia: Se encontraron más de %d posiciones\n", MAX_POSICIONES);
+                    return contador;
+                }
+            }
+        }
+    }
+    
+    return contador;
+}
+
+/**
+ * @brief Muestra todas las posiciones donde se encontró el elemento
+ * @param posiciones Array de posiciones
+ * @param cantidad Cantidad de posiciones
+ * @param elemento Elemento buscado
+ */
+void mostrarPosiciones(Posicion posiciones[MAX_POSICIONES], int cantidad, int elemento) {
+    printf("\n=== POSICIONES ENCONTRADAS ===\n");
+    printf("El elemento %d se encontró en las siguientes posiciones:\n", elemento);
+    
+    for(int i = 0; i < cantidad; i++) {
+        printf("- Posición [%d][%d] (Fila %d, Columna %d)\n", 
+               posiciones[i].fila, posiciones[i].columna,
+               posiciones[i].fila, posiciones[i].columna);
+    }
+    
+    // Mostrar resumen
+    printf("\n Resumen: ");
+    if(cantidad == 1) {
+        printf("Se encontró 1 vez\n");
+    } else {
+        printf("Se encontró %d veces\n", cantidad);
+    }
+}
+
+/**
+ * @brief Lee y valida un número entero desde la entrada
+ * @param mensaje Mensaje a mostrar al usuario
+ * @return Número validado
+ */
+int leerEnteroValidado(const char* mensaje) {
+    int valor;
+    int intentos = 0;
+    const int MAX_INTENTOS = 3;
+    
+    while(intentos < MAX_INTENTOS) {
+        printf("%s", mensaje);
+        
+        if(scanf("%d", &valor) == 1) {
+            return valor; // Entrada válida
+        } else {
+            printf("Error: Por favor ingrese un número válido.\n");
+            
+            // Limpiar buffer de entrada
+            while(getchar() != '\n');
+            
+            intentos++;
+            
+            if(intentos >= MAX_INTENTOS) {
+                printf("Demasiados intentos fallidos. Usando valor por defecto 0.\n");
+                return 0;
+            }
+        }
+    }
+    
+    return 0; // Valor por defecto
+}
+
+/**
+ * @brief Muestra el resultado general de la búsqueda
+ * @param encontrado Si se encontró al menos una vez
+ * @param cantidad Cantidad de veces encontrado
+ * @param elemento Elemento buscado
+ */
+void mostrarResultadoBusqueda(int encontrado, int cantidad, int elemento) {
+    printf("\n=== RESULTADO DE BÚSQUEDA ===\n");
+    
+    if(!encontrado) {
+        printf("El elemento %d NO se encontró en la matriz.\n", elemento);
+        printf("Sugerencia: Intente con otro número entre 0 y 9\n");
+    } else {
+        printf("El elemento %d SÍ se encontró en la matriz.\n", elemento);
+    }
+}

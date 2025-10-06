@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+#define FILAS 4
+#define COLUMNAS 4
+
+void llenarMatriz(int matriz[FILAS][COLUMNAS]) {
+    printf("ingrese los %d valores de la matriz:\n", FILAS * COLUMNAS);
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; J++){
+            printf("Elemento [%d][%d]: ", i, j);
+            scanf("%d" , &matriz[i][j]);
+        }
+    }
+}
+
+void imprimirMatriz(int matriz[FILAS][COLUMNAS]) {
+    printf("\nMatriz ingresada:\n");
+    for(int i = 0; i < FILAS; i++) {
+        for(int j = 0; j < COLUMNAS; j++){
+            printf("%d\t", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int matriz[FILAS][COLUMNAS];
+
+    printf("=== EJERCICIO 2: LLENADO MANUAL ===\n");
+
+    llenarMatriz(matriz);
+    imprimirMatriz(matriz);
+
+    printf("Ejercicio completado\n");
+    return 0;
+}

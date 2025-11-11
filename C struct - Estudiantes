@@ -1,1 +1,62 @@
+#include <stdio.h>  // Biblioteca para entrada y salida estándar
 
+// Estructura Estudiante con 3 campos
+struct Estudiante {
+    char nombre[50];    // Guarda el nombre del estudiante (hasta 50 caracteres)
+    int edad;           // Almacena la edad como número entero
+    float promedio;     // Guarda el promedio con decimales
+};
+
+int main() {
+    // Declaramos un arreglo para 3 estudiantes
+    struct Estudiante lista_estudiantes[3];
+    int i = 0;  // Variable contador para el ciclo
+    
+    printf("=== REGISTRO DE ESTUDIANTES ===\n\n");
+    
+    // CICLO PARA CAPTURAR LOS DATOS DE 3 ESTUDIANTES
+    while(i < 3) {
+        printf("ESTUDIANTE #%d\n", i + 1);
+        
+        // LIMPIEZA DEL BUFFER - importante para que fgets funcione correctamente
+        // Esto elimina caracteres residuales del teclado
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+        
+        // CAPTURA DEL NOMBRE
+        printf("  Nombre completo: ");
+        fgets(lista_estudiantes[i].nombre, 50, stdin);  
+        
+        // CAPTURA DE LA EDAD
+        printf("  Edad: ");
+        scanf("%d", &lista_estudiantes[i].edad);  
+        
+        // CAPTURA DEL PROMEDIO
+        printf("  Promedio academico: ");
+        scanf("%f", &lista_estudiantes[i].promedio);  
+        
+        printf("\n");  
+        i++;  
+    }
+    
+    // SECCIÓN PARA MOSTRAR LOS RESULTADOS
+    printf("\n*** RESUMEN DE ESTUDIANTES ***\n");
+    printf("===============================\n");
+    
+    // CICLO PARA MOSTRAR TODOS LOS ESTUDIANTES REGISTRADOS
+    for(int j = 0; j < 3; j++) {
+        printf("\nAlumno %d:\n", j + 1);
+        
+        // MUESTRA EL NOMBRE (ya incluye salto de línea de fgets)
+        printf("  Nombre: %s", lista_estudiantes[j].nombre);
+        
+        // MUESTRA LA EDAD
+        printf("  Edad: %d años\n", lista_estudiantes[j].edad);
+        
+        // MUESTRA EL PROMEDIO con 1 decimal
+        printf("  Promedio: %.1f puntos\n", lista_estudiantes[j].promedio);
+    }
+    
+    printf("\nRegistro completado.\n");
+    return 0;  
+}

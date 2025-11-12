@@ -1,5 +1,4 @@
-#include <stdio.h>  // Biblioteca para entrada y salida estándar
-
+#include <stdio.h>  
 // Estructura Estudiante con 3 campos
 struct Estudiante {
     char nombre[50];    // Guarda el nombre del estudiante (hasta 50 caracteres)

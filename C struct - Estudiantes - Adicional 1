@@ -1,1 +1,19 @@
+// Funcion para calcular el promedio general 
+float calcularPromedioGeneral(struct Estudiante estudiantes[], int cantidad) {
+    float suma = 0;
+    for(int i = 0; i < cantidad; i++) {
+        suma += estudiantes[i].promedio;
+    }
+    return suma / cantidad;
+} 
 
+// Funcion para encontrar al estudiante con mejor promedio
+int encontrarMejorPromedio(struct Estudiante estudiantes[], int cantidad) {
+    int indiceMejor = 0;
+    for(int i = 1; i < cantidad; i++) {
+        if(estudiantes[i].promedio > estudiantes[indiceMejor].promedio) {
+            indiceMejor = i;
+        }
+    }
+    return indiceMejor;
+}

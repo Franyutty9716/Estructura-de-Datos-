@@ -17,3 +17,43 @@ int encontrarMejorPromedio(struct Estudiante estudiantes[], int cantidad) {
     }
     return indiceMejor;
 }
+
+// Funcion para guardar datos en archivo 
+void guardarEnArchivo(struct Estudiante estudiantes[], int cantidad) {
+    FILE *archivo = fopen("estudiantes.txt", "w");
+    if(archivo == NULL) {
+        printf("Error al crear el archivo.\n");
+        return;
+    }
+
+    for(int i = 0; i < cantidad; i++) {
+        fprintf(archivo, "%s\n%d\n%.2f\n", estudiantes[i].nombre, estudiantes[i].edad, estudiantes[i].promedio)
+
+    }
+
+    fclose(archivo);
+    printf("Datos guardados en 'estudiantes.txt'\n");
+
+}
+
+// Funcion para cargar datos desde archivo
+int cargarDesdeArchivo(struct Estudiante estudiantes[], int maxCantidad) {
+    FILE *archivo = fopen("estudiantes.txt", "r");
+    if(archivo == NULL) {
+        printf("No se encontro archivo para cargar.\n");
+        return 0;
+    }
+
+    int cantidad = 0;
+    while(cantidad < maxCantidad && fgets(esrudiantes[cantidad].nombre, 50, archivo) != NULL) {
+
+        //Eliminar salto de linea del nombre
+        estudiantes[cantidad].nombre[strcspn(estudiantes[cantidad].nombre, "\n")] = 0;
+
+        fscanf(archivo, "%d", &estudiantes[cantidad].edad);
+        fscanf(archivo, "%f", &estudiantes[cantidad].promedio);
+        fgetc(archivo); 
+
+        cantidad++;
+    }
+}

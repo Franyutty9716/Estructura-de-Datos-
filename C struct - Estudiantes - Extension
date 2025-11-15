@@ -153,5 +153,99 @@ void buscarPorMatricula(struct Estudiante estudiante[], int cantidad) {
     }
 
     // Funcion para cargar datos desde archivo
+int cargarDesdeArchivo(struct Estudiante estudiantes[]) {
+    FILE *archivo = fopen("estudiantes.txt", "r");
+    if(archivo == NULL) {
+        printf("No se encontró archivo para cargar.\n");
+        return 0;
+    }
+    
+    int cantidad = 0;
+    char linea[100];
+    
+    while(cantidad < 10 && fscanf(archivo, "%d", &estudiantes[cantidad].matricula) != EOF) {
+        fgetc(archivo); // Leer el salto de línea
+        
+        fgets(estudiantes[cantidad].nombre, 50, archivo);
+        estudiantes[cantidad].nombre[strcspn(estudiantes[cantidad].nombre, "\n")] = 0;
+        
+        fscanf(archivo, "%d", &estudiantes[cantidad].edad);
+        fgetc(archivo);
+        
+        fscanf(archivo, "%f", &estudiantes[cantidad].promedio);
+        fgetc(archivo);
+        
+        for(int j = 0; j < 3; j++) {
+            fgets(estudiantes[cantidad].materias[j].nombre, 30, archivo);
+            estudiantes[cantidad].materias[j].nombre[strcspn(estudiantes[cantidad].materias[j].nombre, "\n")] = 0;
+            
+            fscanf(archivo, "%f", &estudiantes[cantidad].materias[j].calificacion);
+            fgetc(archivo);
+        }
+        
+        fgets(linea, 100, archivo); // Leer separador "---"
+        
+        cantidad++;
+    }
+    
+    fclose(archivo);
+    printf("Datos cargados desde 'estudiantes.txt' (%d estudiantes)\n", cantidad);
+    return cantidad;
+}
+
+// Función principal con menú
+int main() {
+    struct Estudiante estudiantes[10]; // Arreglo para máximo 10 estudiantes
+    int cantidad_estudiantes = 0;
+    int opcion;
+    
+    // Cargar datos al inicio
+    cantidad_estudiantes = cargarDesdeArchivo(estudiantes);
+    
+    do {
+        printf("\n=== SISTEMA DE ESTUDIANTES ===\n");
+        printf("1. Capturar estudiantes\n");
+        printf("2. Mostrar todos\n");
+        printf("3. Buscar por matrícula\n");
+        printf("4. Mostrar mejor promedio\n");
+        printf("5. Guardar datos\n");
+        printf("6. Salir\n");
+        printf("Seleccione una opción: ");
+        scanf("%d", &opcion);
+        
+        switch(opcion) {
+            case 1:
+                capturarEstudiantes(estudiantes, &cantidad_estudiantes);
+                break;
+                
+            case 2:
+                mostrarEstudiantes(estudiantes, cantidad_estudiantes);
+                break;
+                
+            case 3:
+                buscarPorMatricula(estudiantes, cantidad_estudiantes);
+                break;
+                
+            case 4:
+                mostrarMejorPromedio(estudiantes, cantidad_estudiantes);
+                break;
+                
+            case 5:
+                guardarEnArchivo(estudiantes, cantidad_estudiantes);
+                break;
+                
+            case 6:
+                // Guardar automáticamente al salir
+                guardarEnArchivo(estudiantes, cantidad_estudiantes);
+                printf("Saliendo del programa...\n");
+                break;
+                
+            default:
+                printf("Opción no válida.\n");
+        }
+        
+    } while(opcion != 6);
+    
+    return 0;
     
 }

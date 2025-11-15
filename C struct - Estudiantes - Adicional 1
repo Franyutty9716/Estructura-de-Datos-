@@ -56,4 +56,7 @@ int cargarDesdeArchivo(struct Estudiante estudiantes[], int maxCantidad) {
 
         cantidad++;
     }
+    fclose(archivo);
+    printf("Datos cargados desde 'estudiantes.txt'\n");
+    return cantidad;
 }

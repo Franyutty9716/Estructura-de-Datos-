@@ -60,3 +60,99 @@ int cargarDesdeArchivo(struct Estudiante estudiantes[], int maxCantidad) {
     printf("Datos cargados desde 'estudiantes.txt'\n");
     return cantidad;
 }
+
+int main() {
+    struct Estudiante estudiantes[3];
+    int opcion;
+    int cantidad_estudiantes = 0;
+
+    //Nuevo sistema de menu interactivo
+    do {
+       printf("\n=== SISTEMA DE ESTUDIANTES ===\n");
+       printf("1. Capturar nuevos estudiantes\n");
+       printf("2. Cargar datos desde archivo\n");
+       printf("3. Mostrar estudiantes\n");
+       printf("4. Calcular promedio general\n");
+       printf("5. Mostrar mejor promdeio\n");
+       printf("6. Guardar datos en archivo\n");
+       printf("7. Salir\n");
+       printf("Seleccione una opcion: ");
+       scanf("%d", &opcion);
+       getchar(); //Para limpiar buffer
+
+       switch(opcion) {
+           case 1: // CAPTURAR NUEVOS ESTUDIANTES
+               printf("\n --- Captura de 3 estudiantes ---\n");
+               for(int i = 0; i < 3; i++) {
+                   printf("\nEstudiante #%d:\n", i + 1);
+
+                   printf(" Nombre ");
+                   fgets(estudiantes[1].nombre, 50, stdin);
+                   estudiantes[i].nombre[strcspn(estudiantes[i].nombre, "\n")] = 0;
+
+                   printf(" Edad ");
+                   scanf("%d", &estudiantes[i].edad);
+
+                   printf(" Promedio: ");
+                   scanf("%f", &estudiantes[i].promedio);
+                   getchar();
+               }
+               cantidad_estudiantes + 3;
+               break;
+            case 2: // CARGAR DESDE ARCHIVO 
+                cantidad_estudiantes = cargarDesdeArchivo(estudiantes, 3);
+                break;
+                
+            case 3: // MOSTRAR ESTUDIANTES
+                if(cantidad_estudiantes == 0) {
+                    printf("\nNo hay datos para mostrar.\n");
+                } else {
+                    printf("\n--- Lista de Estudiantes ---\n");
+                    for(int i = 0; i < cantidad_estudiantes; i++) {
+                        printf("\nEstudiante %d:\n", i + 1);
+                        printf(" Nombre: %s\n", estudiantes[i].nombre);
+                        printf(" Edad: %d años\n", estudiantes[i].edad);
+                        printf(" Promedio: %.2f\n", estudiantes[i].promedio);
+                    }
+                }
+                break;
+            case 4: // CALCULAR PROMEDIO GENERAL
+                if(cantidad_estudiantes == 0) {
+                    printf("\nNohay datos para calcular.\n");
+                } else {
+                    float promedio_grupo = calcularPromedioGeneral(estudiantes, cantidad_estudiantes);
+                    printf("\n--- Promedio General del Grupo ---\n");
+                    printf("Promedio: %.2f\n", promedio_grupo);
+                }    
+                break;
+            case 5: // MOSTRAR MEJOR PROMEDIO
+                if(cantidad_estudiantes == 0) {
+                    printf("\nNo hay datos por mostrar.\n");
+                } else {
+                    int indice_mejor = encontrarMejorPromedio(estudiantes, cantidad_estudiantes);
+                    printf("\n--- Estudiante con Mejor Promedio ---\n");
+                    printf("Nombre: %s\n", estudiantes[indice_mejor].nombre);
+                    printf("Edad: %d años\n", estudiantes[indice_mejor].edad);
+                    printf("Promedio: %.2f\n", estudiantes[indice_mejor].promedio);
+                }
+                break;
+                
+            case 6: // GUARDAR EN ARCHIVO
+                if(cantidad_estudiantes == 0) {
+                    printf("\nNo hay datos para guardar.\n");
+                } else {
+                    guardarEnArchivo(estudiantes, cantidad_estudiantes);
+                }
+                break;
+
+            case 7: // SALIR
+            printf("\nSaliendo del programa...\n");
+            break;
+            
+        default:
+        printf("\nOpcion no valida.\n");
+        }
+    } while(opcion != 7);
+    
+    return 0;
+}    

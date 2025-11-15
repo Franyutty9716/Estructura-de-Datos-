@@ -1,1 +1,157 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
+
+// Estructura para materia
+struct Materia {
+    char nombre[30];
+    float calificacion;
+};
+
+// Estructura para Estudiante que contiene materias 
+struct Estudiante {
+    int matricula;
+    char nombre[50];
+    int edad;
+    float promedio;
+    struct Materia materias[3]; // Cada estudiante tiene 3 materias
+};
+
+// Funcion para calcular el promedio de un estudiante basado en sus materias
+void calcularPromedioEstudiante(struct Estudiante *est) {
+    float suma = 0;
+    for(int i = 0; i < 3; i++) {
+        suma += est->materias[i].calificacion;
+    }
+    est->promedio = suma / 3.0;
+}
+
+// Funcion para capturar estudiantes
+void capturarEstudiantes(struct Estudiante estudiantes[], int *cantidad) {
+    if(*cantidad >= 10) {
+        printf("No se pueden agregar mas estudiantes (limite: 10)\n");
+        return;
+    }
+
+    struct Estudiante nuevo;
+
+    printf("\n--- CAPTURAR NUEVO ESTUDIANTE ---\n");
+    
+    printf("Matricula: ");
+    scanf("%d", &nuevo.matricula);
+    getchar();
+
+    printf("Nombre: ");
+    fgets(nuevo.nombre, 50, stdin);
+    nuevo.nombre[strcspn(nuevo.nombre, "\n")] = 0; 
+
+    printf("Edad: ");
+    scanf("%d", &nuevo.edad);
+
+    printf("\n--- CAPTURAR MATERIAS ---\n");
+    for(int i = 0; i < 3; i++) {
+        printf("Materia %d:\n", i + 1);
+        getchar();
+
+        printf(" Nombre: ");
+        fgets(nuevo.materias[i].nombre, 30, stdin);
+        nuevo.materias[i].nombre[strcspn(nuevo.materias[i].nombre, "\n")] = 0;
+
+        printf(" Calificacion: ");
+        scanf("%f", &nuevo.materias[i].calificacion);
+    }
+
+    //Calcular promedio automaticamente
+    calcularPromedioEstudiante(&nuevo);
+
+    estudiantes[*cantidad] = nuevo;
+    (*cantidad)++;
+
+    printf("Estudiante agregado exitosamente!\n");
+}
+
+// Funcion para mostrar todos los estudiantes
+void mostrarEstudiantes(struct Estudiante estudiantes[], int cantidad) {
+    if(cantidad == 0) {
+        printf("No hay estudiantes registrados.\n");
+        return;
+    }
+
+    printf("\n=== LISTA DE ESTUDIANTES ===\n");
+    for(int i = 0; i < cantidad; i++) {
+        printf("\n--- Estudiante %d ---\n", i + 1);
+        printf("Matricula: %d\n", estudiantes[i].matricula);
+        printf("Nombre: %s\n", estudiantes[i].nombre);
+        printf("Edad: %d años\n", estudiantes[i].edad);
+        printf("Promedio: %.2f\n", estudiantes[i].promedio);
+
+        printf("Materias\n");
+        for(int j = 0; j < 3; j++) {
+            printf(" %s: %.2f\n", estudiantes[i].materias[j].nombre, estudiantes[i].materias[j].calificacion);
+        }
+        printf("----------------\n");
+    }
+}
+
+// Funcion para buscar estudiante por matricula
+void buscarPorMatricula(struct Estudiante estudiante[], int cantidad) {
+    if(cantidad == 0) {
+        return;
+    }
+
+    int matricula;
+    printf("Ingrese la matricula a buscar: ");
+    scanf("%d", &matricula);
+
+    for(int i = 0; i < cantidad; i++) {
+        scanf("%d", &matricula);
+
+        for(int i = 0; i < cantidad; i++) {
+            if(estudiantes[i].matricula == matricula) {
+                printf("\n--- ESTUDIANTE ENCONTRADO ---\n");
+                printf("Matricula: %d\n", estudiantes[i].matricula);
+                printf("Nombre: %\n", estudiantes[i].nombre);
+                printf("Edad: %d años\n", estudiantes[i].edad);
+                printf("Promedio: %.2\n", estudiantes[i].promedio);
+
+                printf("Materias:\n");
+                for(int j = 0; j < 3; j++) {
+                    printf(" %s: %.2f\n", estudiantes[i].materias[j].nombre, estudiantes[i].materias[j].calificacion);
+                }
+                return;
+            }
+        }
+
+        printf ("No se encontro estudiante con matricula %d\n", matricula);
+    }
+
+    // Funcion para mostrar el estudiante con mejor promedio
+    void mostrarMejorPromedio(struct Estudiante estudiantes[], int cantidad) {
+        if(cantidad == 0) {
+            printf("No hay estudiantes registrados.\n");
+            return;
+        }
+
+        int indiceMejor = 0;
+        for(int i = 1; i < cantidad; i++) {
+            if(estudiantes[i].promedio > estudiantes[indiceMejor].promedio) {
+                indiceMejor = i;
+            }
+        }
+
+        printf("\n--- ESTUDIANTE CON MEJOR PROMEDIO ---\n");
+        printf("Matricula: %d\n", estudiantes[indiceMejor].matricula);
+        printf("Nombre: %s\n", estudiantes[indiceMejor].nombre);
+        printf("Edad: %d años\n", estudiantes[indiceMejor].edad);
+        printf("Promedio: %.2f\n", estudiante[indiceMejor].promedio);
+
+        printf("Materias:\n");
+        for(int j = 0; j < 3; j++) {
+            printf(" %s: %.2f\n", estudiantes[indiceMejor].materias[j].nombre, estudiantes[indiceMejor].materias[j].calificacion);
+        }
+    }
+
+    // Funcion para cargar datos desde archivo
+    
+}
